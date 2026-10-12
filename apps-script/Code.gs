@@ -11,8 +11,9 @@
  *   SHEET_NAME         Tab to write into. Optional, defaults to "Registrations".
  */
 
-var HEADERS = ['Timestamp', 'Full Name', 'Email', 'Phone', 'Institution', 'Consent', 'Page URL'];
+var HEADERS = ['Timestamp', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Consent', 'Page URL'];
 var MAX_LENGTH = 200;
+var COUNTRIES = ['Saudi Arabia', 'Bahrain', 'Qatar', 'Kuwait', 'United Arab Emirates'];
 
 function doPost(e) {
   try {
@@ -28,12 +29,16 @@ function doPost(e) {
       email: clean_(p.email),
       phone: clean_(p.phone),
       institution: clean_(p.institution),
+      country: clean_(p.country),
       consent: p.consent === 'yes' ? 'yes' : '',
       pageUrl: clean_(p.pageUrl)
     };
 
-    if (!reg.fullName || !reg.email || !reg.phone || !reg.institution || !reg.consent) {
+    if (!reg.fullName || !reg.email || !reg.phone || !reg.institution || !reg.country || !reg.consent) {
       return json_({ ok: false, error: 'missing_fields' });
+    }
+    if (COUNTRIES.indexOf(reg.country) === -1) {
+      return json_({ ok: false, error: 'invalid_country' });
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(reg.email)) {
       return json_({ ok: false, error: 'invalid_email' });
@@ -72,6 +77,7 @@ function appendRow_(reg) {
       safeCell_(reg.email),
       safeCell_(reg.phone),
       safeCell_(reg.institution),
+      reg.country,
       reg.consent,
       safeCell_(reg.pageUrl)
     ]);
@@ -90,7 +96,8 @@ function notify_(reg) {
       ['Full Name', reg.fullName],
       ['Email', reg.email],
       ['Phone', reg.phone],
-      ['Institution', reg.institution]
+      ['Institution', reg.institution],
+      ['Country', reg.country]
     ];
     var html = '<p>A new registration request was submitted for the Modern Arthroplasty Conference (Oman).</p>' +
       '<table cellpadding="6" style="border-collapse:collapse">' +
