@@ -13,6 +13,8 @@ return [
 
     // Who gets an email for every registration (list of addresses).
     'notify_emails' => ['organizer@example.com'],
+    // Optional copies. Same format: ['a@example.com', 'b@example.com'] or 'a@example.com, b@example.com'.
+    'notify_cc' => [],
 
     // Also send a confirmation email to the registrant.
     'send_confirmation' => false,
