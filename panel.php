@@ -22,9 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $csrfOk()) {
         exit;
     }
     if (($_POST['action'] ?? '') === 'login') {
+        $plain = (string)($config['panel_password'] ?? '');
         $hash = (string)($config['panel_password_hash'] ?? '');
+        $given = (string)($_POST['pass'] ?? '');
         $userOk = hash_equals((string)$config['panel_user'], (string)($_POST['user'] ?? ''));
-        $passOk = $hash !== '' && password_verify((string)($_POST['pass'] ?? ''), $hash);
+        $passOk = $plain !== '' ? hash_equals($plain, $given) : ($hash !== '' && password_verify($given, $hash));
         if ($userOk && $passOk) {
             session_regenerate_id(true);
             $_SESSION['auth'] = true;
