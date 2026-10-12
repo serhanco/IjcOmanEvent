@@ -77,25 +77,32 @@ try {
     $mail->addReplyTo($reg['email'], $reg['full_name']);
     $mail->Subject = 'New registration: ' . $reg['full_name'] . ' (' . $reg['institution'] . ')';
     $mail->isHTML(true);
-    $mail->Body = '<p>New registration request for the Modern Arthroplasty Conference (Oman).</p><table cellpadding="6" border="1" style="border-collapse:collapse">'
-        . '<tr><td><b>Full Name</b></td><td>' . h($reg['full_name']) . '</td></tr>'
-        . '<tr><td><b>Email</b></td><td>' . h($reg['email']) . '</td></tr>'
-        . '<tr><td><b>Phone</b></td><td>' . h($reg['phone']) . '</td></tr>'
-        . '<tr><td><b>Institution</b></td><td>' . h($reg['institution']) . '</td></tr>'
-        . '<tr><td><b>Country</b></td><td>' . h($reg['country']) . '</td></tr></table>';
+    $siteUrl = $config['site_url'] ?? 'http://acibademijc.com/event/oman/';
+    $mail->Body = mail_layout($siteUrl, 'New registration request', 'A new registration request was submitted on the event page.', [
+        ['Full Name', $reg['full_name']],
+        ['Email', $reg['email']],
+        ['Phone', $reg['phone']],
+        ['Institution', $reg['institution']],
+        ['Country', $reg['country']],
+        ['Received (UTC)', gmdate('Y-m-d H:i')],
+    ], 'Reply to this email to answer the registrant directly.');
     $mail->AltBody = "Full Name: {$reg['full_name']}\nEmail: {$reg['email']}\nPhone: {$reg['phone']}\n"
         . "Institution: {$reg['institution']}\nCountry: {$reg['country']}";
     $mail->send();
 
     if (!empty($config['send_confirmation'])) {
         $mail->clearAddresses();
+        $mail->clearCCs();
         $mail->clearReplyTos();
         $mail->addAddress($reg['email'], $reg['full_name']);
         $mail->Subject = 'Your registration request: Modern Arthroplasty Conference, Oman';
-        $mail->isHTML(false);
-        $mail->Body = "Dear {$reg['full_name']},\n\nThank you for your interest in the Modern Arthroplasty Conference "
-            . "(December 11-12, 2026, Oman). We have received your registration request and will contact you shortly.\n\n"
-            . $config['mail_from_name'];
+        $mail->Body = mail_layout($siteUrl, 'Registration request received', "Dear {$reg['full_name']},\n\nThank you for your interest in the Modern Arthroplasty Conference. We have received your registration request.", [
+            ['Event', 'Modern Arthroplasty: Issues We Face in the Middle East'],
+            ['Date', 'December 11-12, 2026'],
+            ['Location', 'Oman'],
+        ], 'We will review your request and contact you shortly with further details.');
+        $mail->AltBody = "Dear {$reg['full_name']},\n\nThank you for your interest in the Modern Arthroplasty Conference "
+            . "(December 11-12, 2026, Oman). We have received your registration request and will contact you shortly.";
         $mail->send();
     }
 } catch (Throwable $e) {

@@ -21,6 +21,9 @@ return [
     // Also send a confirmation email to the registrant.
     'send_confirmation' => false,
 
+    // Public address of the page, used for the logo in emails.
+    'site_url' => 'http://acibademijc.com/event/oman/',
+
     // Panel login (panel.php). Pick any username and password.
     'panel_user'     => 'admin',
     'panel_password' => '',
