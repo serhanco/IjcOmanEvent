@@ -2,14 +2,14 @@
 // Copy this file to config.php and fill in the values. config.php is gitignored; never commit it.
 return [
     // SMTP account used to send mail.
-    'smtp_host'   => 'smtp.example.com',
+    'smtp_host'   => 'mail.kurumsaleposta.com',
     'smtp_port'   => 587,
     'smtp_secure' => 'tls',            // 'tls' (port 587), 'ssl' (port 465) or '' for none
-    'smtp_user'   => 'user@example.com',
-    'smtp_pass'   => '',
+    'smtp_user'   => 'web@internationalapp.net',
+    'smtp_pass'   => '',               // fill in on the server, never commit it
 
-    'mail_from'      => 'noreply@example.com',
-    'mail_from_name' => 'Acibadem IJC',
+    'mail_from'      => 'web@internationalapp.net',
+    'mail_from_name' => 'Web Form',
 
     // Who gets an email for every registration (list of addresses).
     'notify_emails' => ['organizer@example.com'],
