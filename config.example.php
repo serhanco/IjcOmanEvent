@@ -29,7 +29,7 @@ return [
     'db_user' => '',
     'db_pass' => '',
 
-    // Secret for the one-time installer (kur.php?token=...). Any long random string, e.g.:
+    // Optional. If set, kur.php needs ?token=<this value>. Leave empty to skip. Any long random string, e.g.:
     //   php -r "echo bin2hex(random_bytes(16)), PHP_EOL;"
     // Delete kur.php from the server after installing.
     'setup_token' => '',
