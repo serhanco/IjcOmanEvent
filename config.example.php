@@ -19,10 +19,9 @@ return [
     // Also send a confirmation email to the registrant.
     'send_confirmation' => false,
 
-    // Panel login (panel.php). Store a HASH, not the password. Generate it with:
-    //   php -r "echo password_hash('YOUR_PASSWORD', PASSWORD_DEFAULT), PHP_EOL;"
-    'panel_user'          => 'admin',
-    'panel_password_hash' => '',
+    // Panel login (panel.php). Pick any username and password.
+    'panel_user'     => 'admin',
+    'panel_password' => '',
 
     // MySQL / MariaDB database (create the empty database and user in your hosting panel first).
     'db_host' => 'localhost',

@@ -47,7 +47,7 @@ $check('PHP 8.1+', PHP_VERSION_ID >= 80100, 'found ' . PHP_VERSION);
 $check('pdo_mysql extension', extension_loaded('pdo_mysql'), 'enable it in the hosting panel');
 $check('openssl extension', extension_loaded('openssl'), 'needed for SMTP over TLS');
 $check('mbstring extension', extension_loaded('mbstring'));
-$check('panel_password_hash set', ($config['panel_password_hash'] ?? '') !== '', 'see config.example.php');
+$check('panel_password set', ($config['panel_password'] ?? '') !== '' || ($config['panel_password_hash'] ?? '') !== '', 'set panel_password in config.php');
 $check('SMTP host/user set', ($config['smtp_host'] ?? '') !== '' && ($config['smtp_user'] ?? '') !== '', 'fill SMTP settings');
 $check('notify_emails set', !empty($config['notify_emails']), 'add at least one address');
 
@@ -60,7 +60,6 @@ try {
     $check('Database', false, $e->getMessage());
 }
 
-echo "\nNeed a panel password hash? Open kur.php?hash=1&token=SETUP_TOKEN\n";
 echo $ok
     ? "\nAll good. Now DELETE kur.php from the server, then open panel.php.\n"
     : "\nFix the items marked FAIL, then reload this page.\n";
