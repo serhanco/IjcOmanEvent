@@ -63,8 +63,11 @@ try {
     $mail->SMTPSecure = $config['smtp_secure'];
     $mail->CharSet = 'UTF-8';
     $mail->setFrom($config['mail_from'], $config['mail_from_name']);
-    foreach ($config['notify_emails'] as $to) {
+    foreach (addresses($config['notify_emails'] ?? []) as $to) {
         $mail->addAddress($to);
+    }
+    foreach (addresses($config['notify_cc'] ?? []) as $cc) {
+        $mail->addCC($cc);
     }
     $mail->addReplyTo($reg['email'], $reg['full_name']);
     $mail->Subject = 'New registration: ' . $reg['full_name'] . ' (' . $reg['institution'] . ')';

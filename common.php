@@ -31,6 +31,12 @@ const REGISTRATIONS_SCHEMA = 'CREATE TABLE IF NOT EXISTS registrations (
     INDEX (created_at)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
 
+// Accepts a list (['a@x.com', 'b@x.com']) or a comma separated string ('a@x.com, b@x.com').
+function addresses($value): array {
+    $list = is_array($value) ? $value : explode(',', (string)$value);
+    return array_values(array_filter(array_map('trim', $list), fn($a) => $a !== ''));
+}
+
 function h(string $s): string {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
