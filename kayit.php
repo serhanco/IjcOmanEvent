@@ -43,15 +43,19 @@ if (in_array('', $reg, true) || ($_POST['consent'] ?? '') !== 'yes'
 try {
     $config = load_config();
     $pdo = db($config);
+    ensure_schema($pdo);
     $pdo->prepare('INSERT INTO registrations (created_at, full_name, email, phone, institution, country)
                    VALUES (?, ?, ?, ?, ?, ?)')
         ->execute([gmdate('Y-m-d H:i:s'), $reg['full_name'], $reg['email'], $reg['phone'], $reg['institution'], $reg['country']]);
+    $id = (int)$pdo->lastInsertId();
 } catch (Throwable $e) {
     error_log('registration store failed: ' . $e->getMessage());
     back('hata');
 }
 
 // The registration is already saved; a mail failure must not make the visitor retry.
+// The error is stored with the registration so it shows up in panel.php.
+$mailError = '';
 try {
     $mail = new PHPMailer(true);
     $mail->isSMTP();
@@ -61,6 +65,7 @@ try {
     $mail->Username = $config['smtp_user'];
     $mail->Password = $config['smtp_pass'];
     $mail->SMTPSecure = $config['smtp_secure'];
+    $mail->SMTPAutoTLS = $config['smtp_autotls'] ?? true;
     $mail->CharSet = 'UTF-8';
     $mail->setFrom($config['mail_from'], $config['mail_from_name']);
     foreach (addresses($config['notify_emails'] ?? []) as $to) {
@@ -95,6 +100,13 @@ try {
     }
 } catch (Throwable $e) {
     error_log('registration mail failed: ' . $e->getMessage());
+    $mailError = mb_substr($e->getMessage(), 0, 500);
+}
+
+try {
+    $pdo->prepare('UPDATE registrations SET mail_error = ? WHERE id = ?')->execute([$mailError, $id]);
+} catch (Throwable $e) {
+    error_log('could not store mail status: ' . $e->getMessage());
 }
 
 back('ok');

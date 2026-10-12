@@ -65,7 +65,9 @@ if (in_array($country, COUNTRIES, true)) {
     $where[] = 'country = ?';
     $args[] = $country;
 }
-$stmt = db($config)->prepare('SELECT * FROM registrations' . ($where ? ' WHERE ' . implode(' AND ', $where) : '') . ' ORDER BY id DESC');
+$pdo = db($config);
+ensure_schema($pdo);
+$stmt = $pdo->prepare('SELECT * FROM registrations' . ($where ? ' WHERE ' . implode(' AND ', $where) : '') . ' ORDER BY id DESC');
 $stmt->execute($args);
 $rows = $stmt->fetchAll();
 
@@ -74,12 +76,12 @@ if (isset($_GET['export'])) {
     header('Content-Disposition: attachment; filename="registrations-' . gmdate('Ymd') . '.csv"');
     $out = fopen('php://output', 'w');
     fwrite($out, "\xEF\xBB\xBF"); // BOM so Excel reads UTF-8
-    fputcsv($out, ['ID', 'Date (UTC)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country']);
+    fputcsv($out, ['ID', 'Date (UTC)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Mail error']);
     foreach ($rows as $r) {
         // Prefix risky leading characters so Excel does not run them as formulas.
         $cells = array_map(fn($v) => preg_match('/^[=+\-@]/', (string)$v) ? "'" . $v : $v,
             [$r['full_name'], $r['email'], $r['phone'], $r['institution']]);
-        fputcsv($out, [$r['id'], $r['created_at'], ...$cells, $r['country']]);
+        fputcsv($out, [$r['id'], $r['created_at'], ...$cells, $r['country'], $r['mail_error'] ?? '']);
     }
     exit;
 }
@@ -97,10 +99,11 @@ if (isset($_GET['export'])) {
 <button class="bg-blue-800 text-white rounded-lg px-4 py-2">Filter</button>
 <button name="export" value="1" class="bg-white border rounded-lg px-4 py-2">Download CSV</button></form>
 <div class="bg-white rounded-xl shadow overflow-x-auto"><table class="w-full text-sm text-left">
-<thead class="bg-gray-50 text-gray-600"><tr><?php foreach (['#', 'Date (UTC)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country'] as $t): ?><th class="px-4 py-3"><?= $t ?></th><?php endforeach; ?></tr></thead><tbody>
+<thead class="bg-gray-50 text-gray-600"><tr><?php foreach (['#', 'Date (UTC)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Mail'] as $t): ?><th class="px-4 py-3"><?= $t ?></th><?php endforeach; ?></tr></thead><tbody>
 <?php foreach ($rows as $r): ?><tr class="border-t">
 <td class="px-4 py-3"><?= (int)$r['id'] ?></td><td class="px-4 py-3 whitespace-nowrap"><?= h($r['created_at']) ?></td>
 <td class="px-4 py-3"><?= h($r['full_name']) ?></td><td class="px-4 py-3"><?= h($r['email']) ?></td>
-<td class="px-4 py-3"><?= h($r['phone']) ?></td><td class="px-4 py-3"><?= h($r['institution']) ?></td><td class="px-4 py-3"><?= h($r['country']) ?></td></tr>
-<?php endforeach; ?><?php if (!$rows): ?><tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">No registrations.</td></tr><?php endif; ?>
+<td class="px-4 py-3"><?= h($r['phone']) ?></td><td class="px-4 py-3"><?= h($r['institution']) ?></td><td class="px-4 py-3"><?= h($r['country']) ?></td>
+<td class="px-4 py-3"><?php if (($r['mail_error'] ?? '') === ''): ?><span class="text-green-700">OK</span><?php else: ?><span class="text-red-600 text-xs"><?= h($r['mail_error']) ?></span><?php endif; ?></td></tr>
+<?php endforeach; ?><?php if (!$rows): ?><tr><td colspan="8" class="px-4 py-8 text-center text-gray-500">No registrations.</td></tr><?php endif; ?>
 </tbody></table></div></div></body></html>
