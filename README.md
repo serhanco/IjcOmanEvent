@@ -5,7 +5,7 @@ Single page site published at http://acibademijc.com/event/oman. Plain PHP, no f
 - `index.html`: the page. The form posts to `kayit.php`.
 - `kayit.php`: validates, stores the registration in MySQL, emails the organizers (PHPMailer over SMTP).
 - `panel.php`: password protected list of registrations with search, country filter and CSV download.
-- `kur.php`: one-time installer (checks the setup, creates the table). Delete it after use.
+- `kur.php`: one-time installer (checks the setup, creates the table, then deletes itself).
 - `config.example.php`: template for all settings and secrets.
 - `lib/PHPMailer/`: bundled PHPMailer (LGPL), so no Composer is needed on the host.
 
@@ -18,8 +18,8 @@ Requires PHP 8.1+ with `pdo_mysql`, `openssl` and `mbstring`, and a MySQL/MariaD
 3. Copy `config.example.php` to `config.php` and fill in: database (`db_host`, `db_name`, `db_user`, `db_pass`), SMTP account,
    `notify_emails`, the panel login and a `setup_token`. `config.php` is gitignored and must never be committed.
    Panel login: set `panel_user` and a plain `panel_password` (config.php stays on the server only). Older `panel_password_hash` still works.
-4. Open `/event/oman/kur.php?token=<setup_token>`. It lists what is OK or missing and creates the table.
-5. **Delete `kur.php` from the server.**
+4. Open `/event/oman/kur.php` (add `?token=...` only if you set `setup_token`). It lists what is OK or missing, creates the table and deletes itself when all checks pass.
+5. If it could not delete itself, delete `kur.php` from the server.
 6. Open `/event/oman/panel.php`, submit a test registration from the page and check the mail and the panel.
 
 ## Notes
