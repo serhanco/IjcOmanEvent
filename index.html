@@ -28,11 +28,6 @@
             }
         }
     </script>
-    <script>
-        // Google Apps Script web app URL that stores registrations and sends notification emails.
-        // This URL is public by design (the browser calls it); it is not a secret. See README.md.
-        window.REGISTRATION_ENDPOINT = '';
-    </script>
     <style>
         /* Custom Styles for timeline and specific layout needs */
         .timeline-dot::before {
@@ -507,7 +502,7 @@
                     </div>
 
                     <!-- Registration Form -->
-                    <form id="registration-form" class="space-y-6">
+                    <form id="registration-form" class="space-y-6" method="post" action="kayit.php">
                         <!-- Full Name & Email -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
@@ -633,53 +628,23 @@
                 }
             });
 
-            // Form Submission Handling
+            // The form posts to kayit.php, which redirects back with ?kayit=ok or ?kayit=hata
             const form = document.getElementById('registration-form');
             const successMessage = document.getElementById('success-message');
             const errorMessage = document.getElementById('error-message');
+            const status = new URLSearchParams(window.location.search).get('kayit');
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault(); // Prevent page reload
-                errorMessage.classList.add('hidden');
+            if (status === 'ok') {
+                form.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+            } else if (status === 'hata') {
+                errorMessage.classList.remove('hidden');
+            }
 
-                // Add a small loading effect to button (visual feedback)
+            form.addEventListener('submit', () => {
                 const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
-                submitBtn.disabled = true;
                 submitBtn.classList.add('opacity-75');
-
-                try {
-                    if (!window.REGISTRATION_ENDPOINT) {
-                        throw new Error('REGISTRATION_ENDPOINT is not configured');
-                    }
-
-                    const data = new URLSearchParams(new FormData(form));
-                    data.append('pageUrl', window.location.href);
-
-                    // A URL-encoded body is a "simple" request, so no CORS preflight is needed.
-                    const response = await fetch(window.REGISTRATION_ENDPOINT, {
-                        method: 'POST',
-                        body: data
-                    });
-                    const result = await response.json();
-                    if (!result.ok) {
-                        throw new Error(result.error || 'Registration failed');
-                    }
-
-                    // Hide form and show success message
-                    form.classList.add('hidden');
-                    successMessage.classList.remove('hidden');
-
-                    // Smooth scroll slightly up to focus on message
-                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } catch (err) {
-                    console.error(err);
-                    errorMessage.classList.remove('hidden');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-75');
-                }
             });
         });
     </script>

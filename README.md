@@ -1,37 +1,30 @@
 # Modern Arthroplasty Conference, Oman: landing page
 
-Single page site (`index.html`) published at http://acibademijc.com/event/oman.
-Registrations go to a Google Sheet and trigger an email to the organizers, using a small
-Google Apps Script web app (`apps-script/Code.gs`). No server and no secrets in the repo.
+Single page site published at http://acibademijc.com/event/oman. Plain PHP, no framework.
 
-## How it works
+- `index.html`: the page. The form posts to `kayit.php`.
+- `kayit.php`: validates, stores the registration in SQLite, emails the organizers (PHPMailer over SMTP).
+- `panel.php`: password protected list of registrations with search, country filter and CSV download.
+- `config.example.php`: template for all settings and secrets.
+- `lib/PHPMailer/`: bundled PHPMailer (LGPL), so no Composer is needed on the host.
 
-1. The form in `index.html` POSTs to `window.REGISTRATION_ENDPOINT`.
-2. The Apps Script appends a row to the bound Google Sheet and emails `NOTIFY_EMAILS`.
-3. Optionally it also sends a confirmation email to the registrant.
+## Setup
 
-The endpoint URL is public by nature (the browser calls it) and is not a secret. Everything
-sensitive (recipient addresses, options) lives in Script Properties inside Google, never in git.
+Requires PHP 8.1+ with `pdo_sqlite`, `openssl` and `mbstring` (all standard).
 
-## Setup (once)
-
-1. Create a Google Sheet, e.g. "Oman Registrations", with the account that should own the data and send the emails.
-2. In the sheet: **Extensions > Apps Script**. Replace the contents with `apps-script/Code.gs`.
-   (Optional: paste `apps-script/appsscript.json` via Project Settings > "Show appsscript.json".)
-3. **Project Settings > Script Properties**, add:
-   - `NOTIFY_EMAILS`: comma separated addresses to notify, e.g. `a@x.com,b@x.com` (required)
-   - `SEND_CONFIRMATION`: `true` to email a confirmation to registrants (optional)
-   - `SHEET_NAME`: tab name, default `Registrations` (optional)
-4. **Deploy > New deployment > Web app**: Execute as *Me*, Who has access *Anyone*. Authorize when prompted.
-5. Copy the web app URL (`https://script.google.com/macros/s/.../exec`) into
-   `window.REGISTRATION_ENDPOINT` in `index.html` and publish the page.
-6. Submit a test registration and check the sheet and inbox.
-
-After changing `Code.gs`, use **Deploy > Manage deployments > Edit > New version** so the URL stays the same.
+1. Upload everything to the `/event/oman` folder.
+2. Copy `config.example.php` to `config.php` and fill in the SMTP account, `notify_emails` and the panel login.
+   `config.php` is gitignored and must never be committed.
+3. Create the panel password hash and paste it as `panel_password_hash`:
+   `php -r "echo password_hash('YOUR_PASSWORD', PASSWORD_DEFAULT), PHP_EOL;"`
+4. Make sure `data/` is writable by the web server. It is closed to the web by `data/.htaccess` (Apache).
+   On nginx, deny `/event/oman/data/` yourself, or point `db_path` to a folder outside the web root (recommended).
+5. Open `/event/oman/panel.php`, submit a test registration from the page and check the mail and the panel.
 
 ## Notes
 
-- Gmail accounts can send about 100 emails/day via Apps Script (Workspace about 1500); plenty for a free event registration.
-- Spam protection: hidden honeypot field plus server side validation. Add reCAPTCHA/Turnstile later if abuse appears.
-- `index.html` links to `Javad_Parvizi_Oman_Conference_A5_compressed.pdf`; place that file next to `index.html` on the host.
-- Registrations contain personal data: keep the sheet's sharing restricted to the organizers.
+- Registered countries: Saudi Arabia, Bahrain, Qatar, Kuwait, UAE (checked on the server too).
+- A mail failure never loses a registration; it is saved first and the error is written to the PHP error log.
+- Spam protection: hidden honeypot field. Add a CAPTCHA if abuse appears.
+- `index.html` links to `Javad_Parvizi_Oman_Conference_A5_compressed.pdf`; place that file next to `index.html`.
+- Registrations are personal data: use HTTPS for the panel and keep the panel password private.

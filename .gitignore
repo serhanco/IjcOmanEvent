@@ -3,3 +3,6 @@
 .clasprc.json
 node_modules/
 .DS_Store
+config.php
+data/*.sqlite
+data/*.sqlite-*
