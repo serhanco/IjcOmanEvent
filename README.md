@@ -17,7 +17,8 @@ Requires PHP 8.1+ with `pdo_mysql`, `openssl` and `mbstring`, and a MySQL/MariaD
 2. Upload everything to the `/event/oman` folder.
 3. Copy `config.example.php` to `config.php` and fill in: database (`db_host`, `db_name`, `db_user`, `db_pass`), SMTP account,
    `notify_emails`, the panel login and a random `setup_token`. `config.php` is gitignored and must never be committed.
-   Create the panel password hash with: `php -r "echo password_hash('YOUR_PASSWORD', PASSWORD_DEFAULT), PHP_EOL;"`
+   Panel password hash: open `kur.php?hash=1&token=SETUP_TOKEN` in the browser, type the password you want, and paste the output into `panel_password_hash`.
+   (Or on a terminal: `php -r "echo password_hash('YOUR_PASSWORD', PASSWORD_DEFAULT), PHP_EOL;"`)
 4. Open `/event/oman/kur.php?token=<setup_token>`. It lists what is OK or missing and creates the table.
 5. **Delete `kur.php` from the server.**
 6. Open `/event/oman/panel.php`, submit a test registration from the page and check the mail and the panel.

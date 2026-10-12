@@ -18,6 +18,25 @@ if ($token === '' || !hash_equals($token, (string)($_GET['token'] ?? ''))) {
     exit("Forbidden. Set setup_token in config.php and open kur.php?token=<that value>.");
 }
 
+// Helper: turn the panel password you choose into the hash that config.php needs.
+if (isset($_POST['make_hash'])) {
+    $pw = (string)($_POST['password'] ?? '');
+    echo $pw === ''
+        ? "Password was empty.\n"
+        : "Copy this into panel_password_hash in config.php:\n\n" . password_hash($pw, PASSWORD_DEFAULT) . "\n";
+    exit;
+}
+if (isset($_GET['hash'])) {
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<!DOCTYPE html><meta charset="UTF-8"><title>Panel password hash</title>'
+        . '<form method="post" action="?token=' . h((string)$_GET['token']) . '" style="font-family:sans-serif;max-width:32rem">'
+        . '<p>Type the panel password you want:</p>'
+        . '<input type="hidden" name="make_hash" value="1">'
+        . '<input name="password" type="text" autocomplete="off" style="width:100%;padding:.5rem">'
+        . '<p><button>Make hash</button></p></form>';
+    exit;
+}
+
 $ok = true;
 $check = function (string $label, bool $pass, string $hint = '') use (&$ok) {
     echo ($pass ? '[ OK ] ' : '[FAIL] ') . $label . ($pass ? '' : " - $hint") . "\n";
@@ -41,6 +60,7 @@ try {
     $check('Database', false, $e->getMessage());
 }
 
+echo "\nNeed a panel password hash? Open kur.php?hash=1&token=SETUP_TOKEN\n";
 echo $ok
     ? "\nAll good. Now DELETE kur.php from the server, then open panel.php.\n"
     : "\nFix the items marked FAIL, then reload this page.\n";
