@@ -27,6 +27,7 @@ const REGISTRATIONS_SCHEMA = 'CREATE TABLE IF NOT EXISTS registrations (
     phone VARCHAR(200) NOT NULL,
     institution VARCHAR(200) NOT NULL,
     country VARCHAR(100) NOT NULL,
+    mail_error TEXT NULL,
     INDEX (country),
     INDEX (created_at)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
@@ -35,6 +36,14 @@ const REGISTRATIONS_SCHEMA = 'CREATE TABLE IF NOT EXISTS registrations (
 function addresses($value): array {
     $list = is_array($value) ? $value : explode(',', (string)$value);
     return array_values(array_filter(array_map('trim', $list), fn($a) => $a !== ''));
+}
+
+// Creates the table if needed and adds columns introduced after the first install.
+function ensure_schema(PDO $pdo): void {
+    $pdo->exec(REGISTRATIONS_SCHEMA);
+    if (!$pdo->query("SHOW COLUMNS FROM registrations LIKE 'mail_error'")->fetchAll()) {
+        $pdo->exec('ALTER TABLE registrations ADD COLUMN mail_error TEXT NULL');
+    }
 }
 
 function h(string $s): string {

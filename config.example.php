@@ -7,6 +7,8 @@ return [
     'smtp_secure' => 'tls',            // 'tls' (port 587), 'ssl' (port 465) or '' for none
     'smtp_user'   => 'web@internationalapp.net',
     'smtp_pass'   => '',               // fill in on the server, never commit it
+    // Opportunistic STARTTLS when smtp_secure is ''. Set false only if the mail server rejects it.
+    'smtp_autotls' => true,
 
     'mail_from'      => 'web@internationalapp.net',
     'mail_from_name' => 'Web Form',
