@@ -46,6 +46,32 @@ function ensure_schema(PDO $pdo): void {
     }
 }
 
+// Styled HTML email (tables and inline CSS so it renders in Outlook and Gmail).
+// $rows is a list of [label, value] pairs shown as a details table; $intro/$outro are plain text.
+function mail_layout(string $siteUrl, string $title, string $intro, array $rows, string $outro = ''): string {
+    $logo = h(rtrim($siteUrl, '/') . '/assets/ijc-logo.png');
+    $cells = '';
+    foreach ($rows as $i => [$label, $value]) {
+        $bg = $i % 2 ? '#F3F4F6' : '#FFFFFF';
+        $cells .= '<tr><td style="padding:10px 16px;background:' . $bg . ';color:#6B7280;font-size:13px;width:34%;vertical-align:top">' . h($label) . '</td>'
+            . '<td style="padding:10px 16px;background:' . $bg . ';color:#111827;font-size:15px;font-weight:600">' . h($value) . '</td></tr>';
+    }
+    $table = $cells ? '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #E5E7EB;border-radius:8px;border-collapse:separate;overflow:hidden;margin:20px 0">' . $cells . '</table>' : '';
+    $outroHtml = $outro !== '' ? '<p style="margin:16px 0 0;font-size:15px;line-height:1.6;color:#374151">' . nl2br(h($outro)) . '</p>' : '';
+
+    return '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F3F4F6;font-family:Arial,Helvetica,sans-serif">'
+        . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F3F4F6;padding:24px 12px"><tr><td align="center">'
+        . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FFFFFF;border-radius:12px;overflow:hidden;border:1px solid #E5E7EB">'
+        . '<tr><td style="padding:20px 28px;background:#FFFFFF"><img src="' . $logo . '" alt="Acıbadem IJC" height="40" style="display:block;border:0;height:40px"></td></tr>'
+        . '<tr><td style="padding:22px 28px;background:#00488F;color:#FFFFFF">'
+        . '<div style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#BFDBFE">Modern Arthroplasty Conference &middot; Oman</div>'
+        . '<div style="font-size:22px;font-weight:700;margin-top:6px">' . h($title) . '</div></td></tr>'
+        . '<tr><td style="padding:24px 28px 28px">'
+        . '<p style="margin:0;font-size:15px;line-height:1.6;color:#374151">' . nl2br(h($intro)) . '</p>' . $table . $outroHtml . '</td></tr>'
+        . '<tr><td style="padding:16px 28px;background:#002E5C;color:#BFDBFE;font-size:12px;text-align:center">December 11-12, 2026 &middot; Oman &middot; Acıbadem International Joint Center</td></tr>'
+        . '</table></td></tr></table></body></html>';
+}
+
 function h(string $s): string {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
