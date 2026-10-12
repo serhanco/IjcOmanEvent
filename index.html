@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Arthroplasty Conference | Oman</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        acibadem: {
+                            blue: '#00488F',
+                            dark: '#002E5C',
+                            light: '#0084C9',
+                            gray: '#F3F4F6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles for timeline and specific layout needs */
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            left: 0.375rem; /* 6px */
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #E5E7EB;
+            z-index: 0;
+        }
+        .timeline-item:last-child .timeline-dot::before {
+            bottom: auto;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 antialiased selection:bg-acibadem-light selection:text-white">
+
+    <header class="fixed w-full top-0 z-50 bg-acibadem-dark/95 backdrop-blur-sm border-b border-white/10 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Area -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="bg-white py-2 px-3 rounded-xl shadow-md flex items-center justify-center transition-transform hover:scale-105">
+                        <img src="https://webcdn.acibadem.com.tr/ijc/acibadem-ijc/img/logo.png" alt="Acıbadem IJC Logo" class="h-8 md:h-10 object-contain">
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-blue-100 hover:text-white font-medium transition-colors">About</a>
+                    <a href="#speaker" class="text-blue-100 hover:text-white font-medium transition-colors">Speaker</a>
+                    <a href="#program" class="text-blue-100 hover:text-white font-medium transition-colors">Program</a>
+                    <a href="#register" class="bg-white text-acibadem-dark hover:bg-gray-100 px-6 py-2.5 rounded-full font-medium transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Register Now
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-blue-100 hover:text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-acibadem-dark border-t border-white/10 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#about" class="block px-3 py-3 text-base font-medium text-blue-100 hover:text-white hover:bg-white/5 rounded-md">About</a>
+                <a href="#speaker" class="block px-3 py-3 text-base font-medium text-blue-100 hover:text-white hover:bg-white/5 rounded-md">Speaker</a>
+                <a href="#program" class="block px-3 py-3 text-base font-medium text-blue-100 hover:text-white hover:bg-white/5 rounded-md">Program</a>
+                <a href="#register" class="block mt-4 px-3 py-3 text-center text-base font-medium text-acibadem-dark bg-white hover:bg-gray-100 rounded-md">Register Now</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative pt-28 pb-16 lg:pt-40 lg:pb-24 bg-acibadem-dark overflow-hidden">
+            <!-- Decorative Background Elements -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-acibadem-blue/20 blur-3xl"></div>
+                <div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-acibadem-light/10 blur-3xl"></div>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-10">
+
+                    <!-- Left Column: Content -->
+                    <div class="w-full lg:w-1/2 text-center lg:text-left">
+                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-acibadem-light/20 text-blue-200 text-sm font-semibold tracking-wide uppercase mb-6 border border-acibadem-light/30">
+                            <i class="fa-solid fa-location-dot"></i> December 11-12, 2026 | Oman
+                        </span>
+
+                        <h1 class="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white tracking-tight mb-4 leading-tight">
+                            MODERN ARTHROPLASTY
+                            <span class="block text-acibadem-light mt-2 text-2xl md:text-3xl lg:text-4xl font-medium">Issues We Face in the Middle East</span>
+                        </h1>
+
+                        <p class="mt-6 text-lg md:text-xl text-blue-100 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                            A distinguished scientific meeting focusing on the challenges and considerations surrounding modern arthroplasty in Middle Eastern patients.
+                        </p>
+
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+                            <a href="#register" class="inline-flex justify-center items-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-acibadem-dark bg-white hover:bg-gray-50 shadow-xl transition-all hover:scale-105">
+                                Register to Attend
+                                <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </a>
+                            <a href="#program" class="inline-flex justify-center items-center px-8 py-4 border-2 border-white/30 text-lg font-medium rounded-lg text-white hover:bg-white/10 transition-all hover:border-white">
+                                View Program
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Responsive Group Photo -->
+                    <div class="w-full lg:w-1/2 mt-8 lg:mt-0 relative">
+                        <!-- Image Container -->
+                        <div class="relative rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group bg-acibadem-dark">
+
+                            <!-- Mobile & Tablet Image (Horizontal view for narrower screens) -->
+                            <img src="https://webcdn.acibadem.com.tr/ijc/acibadem-ijc/img/merkezimiz/merkezimiz-banner.jpg"
+                                 alt="Acıbadem IJC Doctors Group Mobile"
+                                 class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105 block lg:hidden">
+
+                            <!-- Desktop Image (Better vertical ratio for 2-column layout) -->
+                            <img src="https://static.wixstatic.com/media/0540e9_5a5115aa0ab9424ca091922c2f26be48~mv2.png/v1/fill/w_2676,h_1420,fp_0.18_0.33,q_95,usm_0.66_1.00_0.01,enc_avif,quality_auto/240929%202l%20%20Parvizi%20Personal.png"
+                                 alt="Acıbadem IJC Doctors Group Desktop"
+                                 class="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105 hidden lg:block">
+
+                            <!-- Subtle inner shadow for depth -->
+                            <div class="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.3)] pointer-events-none"></div>
+                        </div>
+
+                        <!-- Floating decoration card (adds medical flair) -->
+                        <div class="hidden md:flex absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-4 items-center gap-4 border border-gray-100 animate-bounce" style="animation-duration: 3s;">
+                            <div class="w-12 h-12 bg-acibadem-blue/10 rounded-full flex items-center justify-center text-acibadem-blue">
+                                <i class="fa-solid fa-user-doctor text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-gray-900">Expert Leadership</p>
+                                <p class="text-xs text-gray-500">Prof. Dr. Javad Parvizi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Conference Leadership</h2>
+                    <p class="text-lg text-gray-600 mb-6">Guided by leading experts in Orthopedic Surgery and Arthroplasty.</p>
+                </div>
+
+                <div id="speaker" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Speaker 1: Javad Parvizi -->
+                    <div class="bg-gray-50 rounded-3xl p-6 lg:p-8 shadow-sm border border-gray-100 flex flex-col xl:flex-row items-center xl:items-start gap-6 transition-all hover:shadow-md">
+                        <div class="w-32 h-32 lg:w-40 lg:h-40 flex-shrink-0 bg-white rounded-full border-4 border-white shadow-lg overflow-hidden relative">
+                            <img src="https://webcdn.acibadem.com.tr/eklem-merkezi-maslak-ijc/acibadem-ijc/img/doktor-detay/javad-parvizi-banner.png" alt="Prof. Dr. Javad Parvizi" class="w-full h-full object-cover object-top bg-acibadem-gray">
+                        </div>
+
+                        <div class="text-center xl:text-left flex-1">
+                            <div class="inline-block px-3 py-1 bg-acibadem-blue/10 text-acibadem-blue rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                                Course Leader
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-1">Prof. Dr. Javad Parvizi</h3>
+                            <p class="text-sm text-gray-500 mb-4 font-medium">Orthopedic Surgery & Arthroplasty</p>
+
+                            <a href="https://www.javadparvizi.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm text-acibadem-blue font-semibold hover:text-acibadem-dark transition-colors group">
+                                Visit Website
+                                <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-xs group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Speaker 2: Sultan Al Maskari -->
+                    <div class="bg-gray-50 rounded-3xl p-6 lg:p-8 shadow-sm border border-gray-100 flex flex-col xl:flex-row items-center xl:items-start gap-6 transition-all hover:shadow-md">
+                        <div class="w-32 h-32 lg:w-40 lg:h-40 flex-shrink-0 bg-white rounded-full border-4 border-white shadow-lg overflow-hidden relative flex items-center justify-center">
+                            <img src="https://omaninternationalhospital.com/wp-content/uploads/2024/01/Dr-Sultan-Al-Maskari-scaled.jpg" alt="Prof. Dr. Sultan Al Maskari" class="w-full h-full object-cover object-top bg-acibadem-gray">
+                        </div>
+
+                        <div class="text-center xl:text-left flex-1">
+                            <div class="inline-block px-3 py-1 bg-acibadem-light/10 text-acibadem-light rounded-full text-xs font-bold uppercase tracking-wider mb-3">
+                                Co-Chair
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-1">Prof. Dr. Sultan Al Maskari</h3>
+                            <p class="text-sm text-gray-500 mb-4 font-medium">Orthopedic Surgery & Arthroplasty</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="program" class="py-20 bg-gray-50 border-t border-gray-100">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Scientific Program</h2>
+                    <p class="text-lg text-gray-600 mb-6">Comprehensive sessions tailored to the challenges of the region.</p>
+
+                    <a href="Javad_Parvizi_Oman_Conference_A5_compressed.pdf" download="Javad_Parvizi_Oman_Conference_A5_compressed.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-acibadem-blue border border-gray-200 rounded-full hover:border-acibadem-blue hover:shadow-md transition-all font-semibold text-sm">
+                        <i class="fa-solid fa-file-pdf text-lg text-red-500"></i> Download Program (PDF)
+                    </a>
+                </div>
+
+                <!-- Day 1 -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-acibadem-blue border-b-2 border-acibadem-light pb-2 mb-6 flex items-center gap-3">
+                        <i class="fa-regular fa-calendar text-acibadem-light"></i> Friday, December 11, 2026
+                    </h3>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-6">
+                        <div class="text-lg font-bold text-acibadem-dark w-24">20:00</div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-900">Opening Dinner</h4>
+                            <p class="text-gray-500">Welcome reception and networking.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2 -->
+                <div>
+                    <h3 class="text-2xl font-bold text-acibadem-blue border-b-2 border-acibadem-light pb-2 mb-8 flex items-center gap-3">
+                        <i class="fa-regular fa-calendar text-acibadem-light"></i> Saturday, December 12, 2026
+                    </h3>
+
+                    <!-- Preoperative Matters -->
+                    <div class="mb-10 relative">
+                        <div class="bg-acibadem-blue text-white px-4 py-2 rounded-lg inline-block font-bold mb-6 shadow-sm">
+                            Preoperative Matters
+                        </div>
+                        <div class="space-y-6 relative timeline-dot">
+                            <!-- Items -->
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-acibadem-light rounded-full border-2 border-white z-10 shadow-sm"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">9:00 - 9:10</div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900 text-lg">Introduction and objectives</h4>
+                                        <p class="text-gray-500 text-sm mt-1"><i class="fa-solid fa-user-doctor mr-1"></i> S. Al Maskari / J. Parvizi</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">9:10 - 9:20</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Modern Arthroplasty: What are the essential elements?</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">9:20 - 9:30</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Diabetic patient who lives on rice and baklava</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">9:30 - 9:40</div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 text-lg">Sickle cell patient - way too many of these</h4>
+                                        <p class="text-gray-500 text-sm mt-1"><i class="fa-solid fa-user-doctor mr-1"></i> M. Al Sayyad</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">9:40 - 9:50</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Old lady with urine incontinence (UTI)</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">9:50 - 10:00</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">BMI is just a number</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">10:00 - 10:10</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Smiley face: Many missing teeth</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-acibadem-blue rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">10:10 - 10:30</div>
+                                    <h4 class="font-semibold text-acibadem-blue text-lg">Questions and Answers</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-orange-400 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6 bg-orange-50 p-4 rounded-lg -ml-2 border border-orange-100">
+                                    <div class="text-orange-700 font-bold sm:w-26 flex-shrink-0">10:30 - 11:00</div>
+                                    <h4 class="font-semibold text-orange-800 text-lg"><i class="fa-solid fa-mug-hot mr-2"></i>Break</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-acibadem-light rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6 bg-blue-50 p-4 rounded-lg -ml-2 border border-blue-100">
+                                    <div class="text-acibadem-dark font-bold sm:w-26 flex-shrink-0">11:00 - 12:30</div>
+                                    <div>
+                                        <h4 class="font-bold text-acibadem-dark text-lg">Case Discussions: Middle Eastern Patients</h4>
+                                        <p class="text-acibadem-blue text-sm mt-1"><i class="fa-solid fa-microphone mr-1"></i> Moderator: S. Al Maskari</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6 bg-green-50 p-4 rounded-lg -ml-2 border border-green-100">
+                                    <div class="text-green-700 font-bold sm:w-26 flex-shrink-0">12:30 - 14:00</div>
+                                    <h4 class="font-semibold text-green-800 text-lg"><i class="fa-solid fa-utensils mr-2"></i>Lunch</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-10 mt-12 relative">
+                        <div class="bg-acibadem-blue text-white px-4 py-2 rounded-lg inline-block font-bold mb-6 shadow-sm">
+                            Intraoperative Matters
+                        </div>
+                        <div class="space-y-6 relative timeline-dot">
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">14:00 - 14:10</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Operating room temperature and humidity</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">14:10 - 14:20</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Skin prep: Anything unique for our patients</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">14:20 - 14:30</div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 text-lg">Blood conservation: Effective strategies</h4>
+                                        <p class="text-gray-500 text-sm mt-1"><i class="fa-solid fa-user-doctor mr-1"></i> M. Enayatollahi</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">14:30 - 14:40</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Removing contamination: What irrigation solution do we use?</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">14:40 - 14:50</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Wound closure and dressing: Anything Unique here?</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-acibadem-blue rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">14:50 - 15:10</div>
+                                    <h4 class="font-semibold text-acibadem-blue text-lg">Questions and Answers</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-orange-400 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6 bg-orange-50 p-4 rounded-lg -ml-2 border border-orange-100">
+                                    <div class="text-orange-700 font-bold sm:w-26 flex-shrink-0">15:10 - 15:30</div>
+                                    <h4 class="font-semibold text-orange-800 text-lg"><i class="fa-solid fa-mug-hot mr-2"></i>Break</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-10 mt-12 relative">
+                        <div class="bg-acibadem-blue text-white px-4 py-2 rounded-lg inline-block font-bold mb-6 shadow-sm">
+                            Postoperative Matters
+                        </div>
+                        <div class="space-y-6 relative timeline-dot">
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">15:30 - 15:40</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Day 3 and Draining wound</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">15:40 - 15:50</div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800 text-lg">What should we do for VTE prevention</h4>
+                                        <p class="text-gray-500 text-sm mt-1"><i class="fa-solid fa-user-doctor mr-1"></i> Humaid Al Farii</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-300 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-acibadem-dark font-bold sm:w-28 flex-shrink-0">15:50 - 16:00</div>
+                                    <h4 class="font-semibold text-gray-800 text-lg">Dislocation: Cannot get up from a praying position</h4>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-acibadem-light rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6 bg-blue-50 p-4 rounded-lg -ml-2 border border-blue-100">
+                                    <div class="text-acibadem-dark font-bold sm:w-26 flex-shrink-0">16:00 - 17:30</div>
+                                    <div>
+                                        <h4 class="font-bold text-acibadem-dark text-lg">Case Discussions: Middle Eastern Patients in Istanbul</h4>
+                                        <p class="text-acibadem-blue text-sm mt-1"><i class="fa-solid fa-microphone mr-1"></i> Moderator: J. Parvizi</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relative pl-8 timeline-item">
+                                <div class="absolute left-0 top-1.5 w-3 h-3 bg-gray-800 rounded-full border-2 border-white z-10"></div>
+                                <div class="flex flex-col sm:flex-row sm:gap-6">
+                                    <div class="text-gray-800 font-bold sm:w-28 flex-shrink-0">17:30</div>
+                                    <h4 class="font-bold text-gray-800 text-lg">Closing Remarks</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evening Gala -->
+                    <div class="mt-8 bg-acibadem-dark text-white p-6 rounded-xl shadow-md flex items-center gap-6">
+                        <div class="text-xl font-bold text-acibadem-light w-24">19:00</div>
+                        <div>
+                            <h4 class="text-2xl font-semibold">Gala Dinner</h4>
+                            <p class="text-gray-300 mt-1">A special evening to conclude the scientific sessions.</p>
+                        </div>
+                        <i class="fa-solid fa-martini-glass-citrus text-4xl text-acibadem-light ml-auto opacity-50"></i>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="register" class="py-24 bg-white relative overflow-hidden">
+            <!-- Decorative background elements -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-acibadem-light/10 blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-acibadem-blue/10 blur-3xl"></div>
+
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-10">
+                    <span class="bg-green-100 text-green-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4 inline-block uppercase tracking-wider shadow-sm border border-green-200">Free Registration</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-acibadem-dark mb-4">Registration Request</h2>
+                    <p class="text-gray-600 text-lg">Join us in Oman for an engaging scientific meeting and an opportunity to exchange experiences.</p>
+                </div>
+
+                <div class="bg-white p-8 md:p-10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100">
+
+                    <!-- Success Message (Hidden by default) -->
+                    <div id="success-message" class="hidden text-center py-10">
+                        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa-solid fa-check text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Registration Received!</h3>
+                        <p class="text-gray-600">Thank you for your interest. We will review your request and contact you shortly with further details.</p>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <form id="registration-form" class="space-y-6" method="post" action="kayit.php">
+                        <!-- Full Name & Email -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="fullName" name="fullName" required maxlength="200" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-acibadem-blue focus:border-acibadem-blue transition-colors outline-none" placeholder="Dr. John Doe">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                                <input type="email" id="email" name="email" required maxlength="200" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-acibadem-blue focus:border-acibadem-blue transition-colors outline-none" placeholder="doctor@hospital.com">
+                            </div>
+                        </div>
+
+                        <!-- Phone & Institution -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                                <input type="tel" id="phone" name="phone" required maxlength="50" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-acibadem-blue focus:border-acibadem-blue transition-colors outline-none" placeholder="+968 ...">
+                            </div>
+                            <div>
+                                <label for="institution" class="block text-sm font-medium text-gray-700 mb-1">Institution / Hospital <span class="text-red-500">*</span></label>
+                                <input type="text" id="institution" name="institution" required maxlength="200" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-acibadem-blue focus:border-acibadem-blue transition-colors outline-none" placeholder="Name of your hospital">
+                            </div>
+                        </div>
+
+                        <!-- Country -->
+                        <div>
+                            <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country <span class="text-red-500">*</span></label>
+                            <select id="country" name="country" required class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-acibadem-blue focus:border-acibadem-blue transition-colors outline-none">
+                                <option value="" selected disabled>Select your country</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Bahrain">Bahrain</option>
+                                <option value="Qatar">Qatar</option>
+                                <option value="Kuwait">Kuwait</option>
+                                <option value="United Arab Emirates">United Arab Emirates</option>
+                            </select>
+                        </div>
+
+                        <!-- Honeypot field for bots; hidden from people -->
+                        <div class="hidden" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <div class="pt-2">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="consent" value="yes" required class="mt-1 w-4 h-4 text-acibadem-blue border-gray-300 rounded focus:ring-acibadem-blue">
+                                <span class="ml-3 text-sm text-gray-600">
+                                    I confirm that I am a medical professional and request to attend this scientific meeting. I consent to my data being processed for event organization purposes.
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Error Message (Hidden by default) -->
+                        <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                            Something went wrong while sending your request. Please try again in a moment.
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit" class="w-full bg-acibadem-blue hover:bg-acibadem-dark text-white font-bold text-lg py-4 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                Submit Registration Request <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-center text-gray-400 mt-4"><i class="fa-solid fa-lock mr-1"></i> Your information is secure and will only be used for this event.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-acibadem-dark text-white pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center">
+                    <div class="bg-white py-2 px-4 rounded-xl shadow-md inline-flex items-center justify-center">
+                        <img src="https://acibadem.world/assets/images/acibadem-white-logo.webp" alt="Acıbadem Logo" class="h-10 md:h-12 object-contain" style="filter: brightness(0) invert(1);">
+                    </div>
+                </div>
+
+                <div class="text-center md:text-right">
+                    <p class="text-blue-200 text-sm">Oman Conference | December 11-12, 2026</p>
+                    <p class="text-blue-300 text-xs mt-1">Course Leader: Prof. Dr. Javad Parvizi | Co-Chair: Prof. Dr. Sultan Al Maskari</p>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-blue-300/60">
+                <p>&copy; 2026 Acıbadem Healthcare Services. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Navbar Scrolled State
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                    navbar.classList.remove('shadow-sm');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                    navbar.classList.add('shadow-sm');
+                }
+            });
+
+            // The form posts to kayit.php, which redirects back with ?kayit=ok or ?kayit=hata
+            const form = document.getElementById('registration-form');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            const status = new URLSearchParams(window.location.search).get('kayit');
+
+            if (status === 'ok') {
+                form.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+            } else if (status === 'hata') {
+                errorMessage.classList.remove('hidden');
+            }
+
+            form.addEventListener('submit', () => {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+                submitBtn.classList.add('opacity-75');
+            });
+        });
+    </script>
+</body>
+</html>
