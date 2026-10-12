@@ -3,23 +3,24 @@
 Single page site published at http://acibademijc.com/event/oman. Plain PHP, no framework.
 
 - `index.html`: the page. The form posts to `kayit.php`.
-- `kayit.php`: validates, stores the registration in SQLite, emails the organizers (PHPMailer over SMTP).
+- `kayit.php`: validates, stores the registration in MySQL, emails the organizers (PHPMailer over SMTP).
 - `panel.php`: password protected list of registrations with search, country filter and CSV download.
+- `kur.php`: one-time installer (checks the setup, creates the table). Delete it after use.
 - `config.example.php`: template for all settings and secrets.
 - `lib/PHPMailer/`: bundled PHPMailer (LGPL), so no Composer is needed on the host.
 
 ## Setup
 
-Requires PHP 8.1+ with `pdo_sqlite`, `openssl` and `mbstring` (all standard).
+Requires PHP 8.1+ with `pdo_mysql`, `openssl` and `mbstring`, and a MySQL/MariaDB database.
 
-1. Upload everything to the `/event/oman` folder.
-2. Copy `config.example.php` to `config.php` and fill in the SMTP account, `notify_emails` and the panel login.
-   `config.php` is gitignored and must never be committed.
-3. Create the panel password hash and paste it as `panel_password_hash`:
-   `php -r "echo password_hash('YOUR_PASSWORD', PASSWORD_DEFAULT), PHP_EOL;"`
-4. Make sure `data/` is writable by the web server. It is closed to the web by `data/.htaccess` (Apache).
-   On nginx, deny `/event/oman/data/` yourself, or point `db_path` to a folder outside the web root (recommended).
-5. Open `/event/oman/panel.php`, submit a test registration from the page and check the mail and the panel.
+1. In the hosting panel create an empty database and a user with access to it.
+2. Upload everything to the `/event/oman` folder.
+3. Copy `config.example.php` to `config.php` and fill in: database (`db_host`, `db_name`, `db_user`, `db_pass`), SMTP account,
+   `notify_emails`, the panel login and a random `setup_token`. `config.php` is gitignored and must never be committed.
+   Create the panel password hash with: `php -r "echo password_hash('YOUR_PASSWORD', PASSWORD_DEFAULT), PHP_EOL;"`
+4. Open `/event/oman/kur.php?token=<setup_token>`. It lists what is OK or missing and creates the table.
+5. **Delete `kur.php` from the server.**
+6. Open `/event/oman/panel.php`, submit a test registration from the page and check the mail and the panel.
 
 ## Notes
 

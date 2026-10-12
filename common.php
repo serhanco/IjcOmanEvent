@@ -12,19 +12,24 @@ function load_config(): array {
 }
 
 function db(array $config): PDO {
-    $pdo = new PDO('sqlite:' . $config['db_path']);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec('CREATE TABLE IF NOT EXISTS registrations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        created_at TEXT NOT NULL,
-        full_name TEXT NOT NULL,
-        email TEXT NOT NULL,
-        phone TEXT NOT NULL,
-        institution TEXT NOT NULL,
-        country TEXT NOT NULL
-    )');
-    return $pdo;
+    $dsn = 'mysql:host=' . $config['db_host'] . ';dbname=' . $config['db_name'] . ';charset=utf8mb4';
+    return new PDO($dsn, $config['db_user'], $config['db_pass'], [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
 }
+
+const REGISTRATIONS_SCHEMA = 'CREATE TABLE IF NOT EXISTS registrations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME NOT NULL,
+    full_name VARCHAR(200) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    phone VARCHAR(200) NOT NULL,
+    institution VARCHAR(200) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    INDEX (country),
+    INDEX (created_at)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
 
 function h(string $s): string {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');

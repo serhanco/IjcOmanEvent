@@ -65,7 +65,7 @@ if (in_array($country, COUNTRIES, true)) {
 }
 $stmt = db($config)->prepare('SELECT * FROM registrations' . ($where ? ' WHERE ' . implode(' AND ', $where) : '') . ' ORDER BY id DESC');
 $stmt->execute($args);
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$rows = $stmt->fetchAll();
 
 if (isset($_GET['export'])) {
     header('Content-Type: text/csv; charset=UTF-8');

@@ -22,6 +22,14 @@ return [
     'panel_user'          => 'admin',
     'panel_password_hash' => '',
 
-    // SQLite file. Best kept outside the web root; the default is protected by data/.htaccess.
-    'db_path' => __DIR__ . '/data/registrations.sqlite',
+    // MySQL / MariaDB database (create the empty database and user in your hosting panel first).
+    'db_host' => 'localhost',
+    'db_name' => '',
+    'db_user' => '',
+    'db_pass' => '',
+
+    // Secret for the one-time installer (kur.php?token=...). Any long random string, e.g.:
+    //   php -r "echo bin2hex(random_bytes(16)), PHP_EOL;"
+    // Delete kur.php from the server after installing.
+    'setup_token' => '',
 ];
