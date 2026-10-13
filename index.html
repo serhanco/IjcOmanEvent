@@ -89,13 +89,13 @@
                 </nav>
 
                 <!-- Language Switcher (only EN and AR shown; remove "hidden" from the FR/TR options to show them again) -->
-                <div class="relative" id="lang-switcher">
+                <div class="relative z-10" id="lang-switcher">
                     <button type="button" id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-full border border-white/20 text-blue-100 hover:text-white hover:bg-white/10 transition-colors text-sm font-medium" aria-haspopup="true" aria-expanded="false">
                         <svg class="w-6 h-4 rounded-sm"><use id="lang-flag" href="#flag-en"/></svg>
                         <span id="lang-code">EN</span>
                         <i class="fa-solid fa-chevron-down text-[10px]"></i>
                     </button>
-                    <div id="lang-menu" class="hidden absolute end-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1 overflow-hidden">
+                    <div id="lang-menu" class="hidden absolute end-0 mt-2 w-44 bg-white rounded-xl shadow-2xl border border-gray-200 py-1 overflow-hidden">
                         <button type="button" data-lang="en" class="lang-opt flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 text-start"><svg class="w-6 h-4 rounded-sm shadow-sm"><use href="#flag-en"/></svg><span>English</span></button>
                         <button type="button" data-lang="ar" class="lang-opt flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 text-start"><svg class="w-6 h-4 rounded-sm shadow-sm"><use href="#flag-ar"/></svg><span>العربية</span></button>
                         <button type="button" data-lang="fr" class="hidden lang-opt flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 text-start"><svg class="w-6 h-4 rounded-sm shadow-sm"><use href="#flag-fr"/></svg><span>Français</span></button>
