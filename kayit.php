@@ -87,7 +87,7 @@ try {
         ['Received (UTC)', gmdate('Y-m-d H:i')],
     ], 'Reply to this email to answer the registrant directly.');
     $mail->AltBody = "Full Name: {$reg['full_name']}\nEmail: {$reg['email']}\nPhone: {$reg['phone']}\n"
-        . "Institution: {$reg['institution']}\nCountry: {$reg['country']}";
+        . "Institution: {$reg['institution']}\nCountry: {$reg['country']}" . MAIL_SIGNATURE_TEXT;
     $mail->send();
 
     if (!empty($config['send_confirmation'])) {
@@ -102,7 +102,8 @@ try {
             ['Location', 'Oman'],
         ], 'We will review your request and contact you shortly with further details.');
         $mail->AltBody = "Dear {$reg['full_name']},\n\nThank you for your interest in the Modern Arthroplasty Conference "
-            . "(December 11-12, 2026, Oman). We have received your registration request and will contact you shortly.";
+            . "(December 11-12, 2026, Oman). We have received your registration request and will contact you shortly."
+            . MAIL_SIGNATURE_TEXT;
         $mail->send();
     }
 } catch (Throwable $e) {

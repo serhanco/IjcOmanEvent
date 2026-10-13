@@ -69,8 +69,13 @@ function mail_layout(string $siteUrl, string $title, string $intro, array $rows,
         . '<tr><td style="padding:24px 28px 28px">'
         . '<p style="margin:0;font-size:15px;line-height:1.6;color:#374151">' . nl2br(h($intro)) . '</p>' . $table . $outroHtml . '</td></tr>'
         . '<tr><td style="padding:16px 28px;background:#002E5C;color:#BFDBFE;font-size:12px;text-align:center">December 11-12, 2026 &middot; Oman &middot; Acıbadem International Joint Center</td></tr>'
-        . '</table></td></tr></table></body></html>';
+        . '</table>'
+        . '<div style="max-width:600px;padding:12px 0 0;font-size:11px;color:#9CA3AF;text-align:center">Lead Delivery System Created by <a href="https://serhandemirel.com" style="color:#9CA3AF;text-decoration:underline">Serhan Demirel</a></div>'
+        . '</td></tr></table></body></html>';
 }
+
+// Plain-text counterpart of the HTML footer signature.
+const MAIL_SIGNATURE_TEXT = "\n\n--\nLead Delivery System Created by Serhan Demirel (https://serhandemirel.com)";
 
 function h(string $s): string {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
