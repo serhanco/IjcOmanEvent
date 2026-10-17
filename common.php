@@ -1,7 +1,7 @@
 <?php
 // Shared helpers for kayit.php and panel.php.
 
-const COUNTRIES = ['Saudi Arabia', 'Bahrain', 'Qatar', 'Kuwait', 'United Arab Emirates'];
+const COUNTRIES = ['Bahrain', 'Iraq', 'Jordan', 'Kuwait', 'Lebanon', 'Qatar', 'Saudi Arabia', 'United Arab Emirates', 'Yemen', 'Other'];
 
 function load_config(): array {
     $file = __DIR__ . '/config.php';
