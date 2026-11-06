@@ -2,6 +2,14 @@
 // Password protected list of registrations: search, country filter, CSV export.
 require __DIR__ . '/common.php';
 
+function tr_time(string $utc): string {
+    try {
+        return (new DateTime($utc, new DateTimeZone('UTC')))->setTimezone(new DateTimeZone('Europe/Istanbul'))->format('Y-m-d H:i:s');
+    } catch (Throwable $e) {
+        return $utc;
+    }
+}
+
 session_set_cookie_params(['httponly' => true, 'samesite' => 'Strict', 'secure' => !empty($_SERVER['HTTPS'])]);
 session_start();
 header('X-Robots-Tag: noindex, nofollow');
@@ -76,12 +84,12 @@ if (isset($_GET['export'])) {
     header('Content-Disposition: attachment; filename="registrations-' . gmdate('Ymd') . '.csv"');
     $out = fopen('php://output', 'w');
     fwrite($out, "\xEF\xBB\xBF"); // BOM so Excel reads UTF-8
-    fputcsv($out, ['ID', 'Date (UTC)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Mail error']);
+    fputcsv($out, ['ID', 'Date (TR)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Mail error']);
     foreach ($rows as $r) {
         // Prefix risky leading characters so Excel does not run them as formulas.
         $cells = array_map(fn($v) => preg_match('/^[=+\-@]/', (string)$v) ? "'" . $v : $v,
             [$r['full_name'], $r['email'], $r['phone'], $r['institution']]);
-        fputcsv($out, [$r['id'], $r['created_at'], ...$cells, $r['country'], $r['mail_error'] ?? '']);
+        fputcsv($out, [$r['id'], tr_time($r['created_at']), ...$cells, $r['country'], $r['mail_error'] ?? '']);
     }
     exit;
 }
@@ -99,9 +107,9 @@ if (isset($_GET['export'])) {
 <button class="bg-blue-800 text-white rounded-lg px-4 py-2">Filter</button>
 <button name="export" value="1" class="bg-white border rounded-lg px-4 py-2">Download CSV</button></form>
 <div class="bg-white rounded-xl shadow overflow-x-auto"><table class="w-full text-sm text-left">
-<thead class="bg-gray-50 text-gray-600"><tr><?php foreach (['#', 'Date (UTC)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Mail'] as $t): ?><th class="px-4 py-3"><?= $t ?></th><?php endforeach; ?></tr></thead><tbody>
+<thead class="bg-gray-50 text-gray-600"><tr><?php foreach (['#', 'Date (TR)', 'Full Name', 'Email', 'Phone', 'Institution', 'Country', 'Mail'] as $t): ?><th class="px-4 py-3"><?= $t ?></th><?php endforeach; ?></tr></thead><tbody>
 <?php foreach ($rows as $r): ?><tr class="border-t">
-<td class="px-4 py-3"><?= (int)$r['id'] ?></td><td class="px-4 py-3 whitespace-nowrap"><?= h($r['created_at']) ?></td>
+<td class="px-4 py-3"><?= (int)$r['id'] ?></td><td class="px-4 py-3 whitespace-nowrap"><?= h(tr_time($r['created_at'])) ?></td>
 <td class="px-4 py-3"><?= h($r['full_name']) ?></td><td class="px-4 py-3"><?= h($r['email']) ?></td>
 <td class="px-4 py-3"><?= h($r['phone']) ?></td><td class="px-4 py-3"><?= h($r['institution']) ?></td><td class="px-4 py-3"><?= h($r['country']) ?></td>
 <td class="px-4 py-3"><?php if (($r['mail_error'] ?? '') === ''): ?><span class="text-green-700">OK</span><?php else: ?><span class="text-red-600 text-xs"><?= h($r['mail_error']) ?></span><?php endif; ?></td></tr>
